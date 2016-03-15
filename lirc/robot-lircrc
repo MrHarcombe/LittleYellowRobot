@@ -1,0 +1,28 @@
+begin
+	button=KEY_UP
+	prog=robot
+	config=up
+	repeat=1
+	delay=0
+end
+begin
+	button=KEY_DOWN
+	prog=robot
+	config=down
+	repeat=1
+	delay=0
+end
+begin
+	button=KEY_LEFT
+	prog=robot
+	config=left
+	repeat=1
+	delay=0
+end
+begin
+	button=KEY_RIGHT
+	prog=robot
+	config=right
+	repeat=1
+	delay=0
+end
