@@ -1,21 +1,57 @@
 #!/usr/bin/python3
-from gpiozero import Robot
+from gpiozero import PololuRobot
 from evdev import InputDevice, list_devices, ecodes
 
 # Set up the GPIOZero robot instance
-robot = Robot(left=(6,19), right=(17,22))
-remote_actions = {
+robot = PololuRobot(left=(12,5), right=(13,6))
+
+robot_movement = {
     ecodes.KEY_UP : robot.forward,
     ecodes.KEY_DOWN : robot.backward,
     ecodes.KEY_LEFT : robot.left,
-    ecodes.KEY_RIGHT : robot.right
+    ecodes.KEY_RIGHT : robot.right,
 }
 
-# Process the (lirc-spawned) events
-device = InputDevice("/dev/input/event0")
-for event in device.read_loop():
-    if event.type == ecodes.EV_KEY:
-        if event.value == 1: # key down
-            remote_actions[event.code]()
-        elif event.value == 0: # key up
-            robot.stop()
+robot_power = (
+    ecodes.KEY_1,
+    ecodes.KEY_2,
+    ecodes.KEY_3,
+    ecodes.KEY_4,
+    ecodes.KEY_5,
+    ecodes.KEY_6,
+    ecodes.KEY_7,
+    ecodes.KEY_8,
+    ecodes.KEY_9,
+    ecodes.KEY_0,
+)
+
+# Only run the motors at 50% initially
+power = 0.5
+
+print("Initialised, now handling events")
+try:
+    # Process the (lirc-spawned) events
+    device = InputDevice("/dev/input/event2")
+    for event in device.read_loop():
+        if event.type == ecodes.EV_KEY:
+            if event.value == 1: # key down
+                if event.code in robot_movement:
+                    print("Moving at power:", power)
+                    robot_movement[event.code](power)
+                elif event.code in robot_power:
+                    print("Setting power to:", event.code - 1)
+                    power = (event.code - 1) / 10
+                elif event.code == ecodes.KEY_ENTER:
+                    print("Stopping due to Enter key pressed")
+                    robot.stop()
+            elif event.value == 2: # key held
+                # print("Held, continuing at power:", power)
+                if event.code in robot_movement:
+                    robot_movement[event.code](power)
+            elif event.value == 0: # key up
+                if event.code in robot_movement:
+                    print("Stopping due to movement key released")
+                    robot.stop()
+
+except KeyboardInterrupt:
+    print("heerio")
