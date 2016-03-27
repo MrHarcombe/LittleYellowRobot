@@ -25,13 +25,18 @@ robot_power = (
     ecodes.KEY_0,
 )
 
+evdev_device = 0
+if (len(sys.argv) > 0):
+  if isdigit(sys.argv[0]):
+    evdev_device = int(sys.argv[0])
+
 print("Initialised, now handling events")
 try:
     # Only run the motors at 50% initially
     power = 0.5
 
     # Process the (lirc-spawned) events
-    device = InputDevice("/dev/input/event2")
+    device = InputDevice("/dev/input/event" + str(evdev_device))
     for event in device.read_loop():
         if event.type == ecodes.EV_KEY:
             if event.value == 1: # key down
