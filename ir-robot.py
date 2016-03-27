@@ -25,24 +25,24 @@ robot_power = (
     ecodes.KEY_0,
 )
 
-# Only run the motors at 50% initially
-power = 0.5
-
 print("Initialised, now handling events")
 try:
+    # Only run the motors at 50% initially
+    power = 0.5
+
     # Process the (lirc-spawned) events
     device = InputDevice("/dev/input/event2")
     for event in device.read_loop():
         if event.type == ecodes.EV_KEY:
             if event.value == 1: # key down
                 if event.code in robot_movement:
-                    print("Moving at power:", power)
+                    # print("Moving at power:", power)
                     robot_movement[event.code](power)
                 elif event.code in robot_power:
-                    print("Setting power to:", event.code - 1)
+                    # print("Setting power to:", event.code - 1)
                     power = (event.code - 1) / 10
                 elif event.code == ecodes.KEY_ENTER:
-                    print("Stopping due to Enter key pressed")
+                    # print("Stopping due to Enter key pressed")
                     robot.stop()
             elif event.value == 2: # key held
                 # print("Held, continuing at power:", power)
@@ -50,7 +50,7 @@ try:
                     robot_movement[event.code](power)
             elif event.value == 0: # key up
                 if event.code in robot_movement:
-                    print("Stopping due to movement key released")
+                    # print("Stopping due to movement key released")
                     robot.stop()
 
 except KeyboardInterrupt:
