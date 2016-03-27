@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from gpiozero import PololuRobot
 from evdev import InputDevice, list_devices, ecodes
+import sys
 
 # Set up the GPIOZero robot instance
 robot = PololuRobot(left=(12,5), right=(13,6))
