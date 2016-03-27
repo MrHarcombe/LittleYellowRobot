@@ -28,7 +28,7 @@ robot_power = (
 
 evdev_device = 0
 if (len(sys.argv) > 0):
-  if is_digit(sys.argv[0]):
+  if sys.argv[0].is_digit():
     evdev_device = int(sys.argv[0])
 
 print("Initialised, now handling events")
