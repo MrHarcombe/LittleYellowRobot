@@ -27,9 +27,11 @@ robot_power = (
 )
 
 evdev_device = 0
-if (len(sys.argv) > 1):
-  if sys.argv[1].isdigit():
+try:
     evdev_device = int(sys.argv[1])
+except IndexError:
+except ValueError:
+    pass
 
 print("Initialised, now handling events")
 try:
