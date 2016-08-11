@@ -1,9 +1,9 @@
-#!/usr/bin/python3
+#!/usr/bin/python2
 import lirc
 from gpiozero import Robot
 
 motor = False
-sockid = lirc.init("robot", "robot-lircrc", blocking=False)
+sockid = lirc.init("robot", "lirc/robot-lircrc", blocking=False)
 
 # Using the lircd interface...
 while True:
