@@ -12,11 +12,11 @@ dtparam=gpio_pin_in=27
 - Edit `/etc/lirc/hardware.conf`
 ```
 LIRCD_ARGS="--uinput"
-LOAD_MODULES=true
+LOAD_MODULES="true"
 DRIVER="default"
 DEVICE="/dev/lirc0"
 MODULES="lirc_rpi"
-LIRCD_CONF=""
+LIRCD_CONF="/path/to/scph-10150.conf"
 LIRCMD_CONF=""
 ```
 
